@@ -1,0 +1,6 @@
+spring:
+  rabbitmq:
+    virtual-host: /qinhan
+    username: qinhan
+    password: qinhan
+    host: 192.168.154.129

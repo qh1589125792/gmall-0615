@@ -126,25 +126,6 @@ class GmallSearchApplicationTests {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test
     public void create() throws IOException {
         //新增数据
@@ -180,18 +161,10 @@ class GmallSearchApplicationTests {
 //        System.out.println(jestClient.execute(get));
 
         //删除数据
-        Delete delete = new Delete.Builder("1").index("user").type("info").build();
-        DocumentResult result = jestClient.execute(delete);
-        System.out.println(result.toString());
+//        Delete delete = new Delete.Builder("1").index("user").type("info").build();
+//        DocumentResult result = jestClient.execute(delete);
+//        System.out.println(result.toString());
     }
-
-
-
-
-
-
-
-
 
 
     @Test

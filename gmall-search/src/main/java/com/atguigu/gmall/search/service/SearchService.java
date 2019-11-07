@@ -11,7 +11,6 @@ import io.searchbox.client.JestClient;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
-import io.searchbox.core.search.aggregation.Bucket;
 import io.searchbox.core.search.aggregation.ChildrenAggregation;
 import io.searchbox.core.search.aggregation.MetricAggregation;
 import io.searchbox.core.search.aggregation.TermsAggregation;
@@ -24,6 +23,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +39,8 @@ public class SearchService {
 
     @Autowired
     private JestClient jestClient;
+
+
     public SearchResponse search(SearchParamVO searchParamVO) {
 
         try {
