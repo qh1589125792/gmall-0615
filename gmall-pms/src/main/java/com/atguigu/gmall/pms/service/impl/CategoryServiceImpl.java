@@ -1,5 +1,7 @@
 package com.atguigu.gmall.pms.service.impl;
 
+import com.atguigu.gmall.pms.vo.CategoryVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import com.atguigu.gmall.pms.service.CategoryService;
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
+    @Autowired
+    private CategoryDao categoryDao;
     @Override
     public PageVo queryPage(QueryCondition params) {
         IPage<CategoryEntity> page = this.page(
@@ -41,6 +45,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             wrapper.eq("parent_cid",parentCid);
         }
         return this.list(wrapper);
+    }
+
+    @Override
+    public List<CategoryVO> queryCategoryWithSub(Long pid) {
+        List<CategoryVO> categoryVOS =  this.categoryDao.queryCategoryWithSub(pid);
+        return categoryVOS;
     }
 
 }
