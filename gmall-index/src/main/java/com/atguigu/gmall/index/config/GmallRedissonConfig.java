@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class GmallRedissonConfig {
 
     @Bean
-    public RedissonClient redissonClient(){
+    public RedissonClient upredissonClient(){
         Config config = new Config();
         config.useSingleServer().setAddress("redis://192.168.154.129:6379");
         return Redisson.create(config);
