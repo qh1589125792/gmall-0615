@@ -1,0 +1,15 @@
+server:
+  port: 8089
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+auth:
+  jwt:
+    publicKeyPath: D:\\develop\\Code\\workspace-idea\\tmp\\rsa.pub
+    privateKeyPath: D:\\develop\\Code\\workspace-idea\\tmp\\rsa.pri
+    secret: asf,./sa135%^%$
+    expire: 180   #\u5206\u671F\u5355\u4F4D\u4E3A\u5206\u949F
+    cookieName: GMALL_TOKEN
+
