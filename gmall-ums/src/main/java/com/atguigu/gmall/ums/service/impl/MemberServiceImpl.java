@@ -1,12 +1,15 @@
 package com.atguigu.gmall.ums.service.impl;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
+import com.atguigu.core.bean.Resp;
+import com.atguigu.gmall.mms.consts.AppConsts;
+import com.atguigu.gmall.ums.feign.GmallMmsClient;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -19,13 +22,16 @@ import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.gmall.ums.dao.MemberDao;
 import com.atguigu.gmall.ums.entity.MemberEntity;
 import com.atguigu.gmall.ums.service.MemberService;
-import sun.misc.Cache;
-
-import javax.xml.crypto.Data;
 
 
 @Service("memberService")
 public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> implements MemberService {
+
+//    @Autowired
+//    private GmallMmsClient gmallMmsClient;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public PageVo queryPage(QueryCondition params) {
@@ -60,7 +66,17 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     public void register(MemberEntity memberEntity, String code) {
 
         //1、校验验证码
+       // this.gmallMmsClient.sendSms(memberEntity.getMobile());
 
+        String mobile = memberEntity.getMobile();
+
+        String redisCode = this.stringRedisTemplate.opsForValue().get(AppConsts.CODE_PREFIX + mobile + AppConsts.CODE_CODE_SUFFIX);
+        if (StringUtils.isEmpty(redisCode)){
+            return;
+        }
+        if(!redisCode.equals(code)){
+            return;
+        }
 
         //2、生成盐
         String salt = StringUtils.substring(UUID.randomUUID().toString(), 0, 6);
@@ -78,6 +94,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         this.save(memberEntity);
 
         //5、删除Redis中的验证码
+//        this.stringRedisTemplate.delete(AppConsts.CODE_PREFIX + code + AppConsts.CODE_CODE_SUFFIX);
 
     }
 

@@ -52,9 +52,6 @@ public class ItemListener {
     public void  listener(Map<String,Object> map){
 
 
-
-
-
         if (CollectionUtils.isEmpty(map)) {
             return;
         }

@@ -16,6 +16,8 @@
         <module>gmall-pms-interface</module>
         <module>gmall-wms-interface</module>
         <module>gmall-ums-interface</module>
+        <module>gmall-manager</module>
+        <module>gmall-mms-interface</module>
     </modules>
 
 </project>

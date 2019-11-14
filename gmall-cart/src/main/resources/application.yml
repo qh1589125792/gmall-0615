@@ -1,0 +1,16 @@
+server:
+  port: 8090
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    host: 192.168.154.129
+
+auth:
+  jwt:
+    publicKeyPath: D:\\develop\\Code\\workspace-idea\\tmp\\rsa.pub
+    userKeyName: USER_KEY
+    expire: 2592000
+    cookieName: GMALL_TOKEN

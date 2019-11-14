@@ -7,6 +7,7 @@ import java.util.Map;
 import com.atguigu.core.bean.PageVo;
 import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.core.bean.Resp;
+import com.atguigu.gmall.ums.feign.GmallMmsClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,18 @@ import com.atguigu.gmall.ums.service.MemberService;
 @RestController
 @RequestMapping("ums/member")
 public class MemberController {
+
     @Autowired
     private MemberService memberService;
+
+//    @Autowired
+//    private GmallMmsClient gmallMmsClient;
+
+//    @GetMapping("{phoneNum}")
+//    public Resp<Object> sendMms(@PathVariable("phoneNum")String phoneNum){
+//        this.gmallMmsClient.sendSms(phoneNum);
+//        return Resp.ok("短信发送成功");
+//    }
 
     @GetMapping("query")
     public Resp<MemberEntity> queryUser(@RequestParam("username") String username, @RequestParam("password") String password){
@@ -42,6 +53,7 @@ public class MemberController {
 
     @PostMapping("register")
     public Resp<Object> register(MemberEntity memberEntity,@RequestParam("code")String code){
+        //this.gmallMmsClient.sendSms(memberEntity.getMobile());
         this.memberService.register(memberEntity,code);
         return Resp.ok(null);
     }
