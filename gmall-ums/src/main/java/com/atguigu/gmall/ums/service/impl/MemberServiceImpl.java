@@ -1,7 +1,6 @@
 package com.atguigu.gmall.ums.service.impl;
 
-import com.atguigu.core.bean.Resp;
-import com.atguigu.gmall.mms.consts.AppConsts;
+import com.atguigu.gmall.ums.consts.AppConsts;
 import com.atguigu.gmall.ums.feign.GmallMmsClient;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,11 +26,10 @@ import com.atguigu.gmall.ums.service.MemberService;
 @Service("memberService")
 public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> implements MemberService {
 
-//    @Autowired
-//    private GmallMmsClient gmallMmsClient;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
 
     @Override
     public PageVo queryPage(QueryCondition params) {
@@ -66,17 +64,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     public void register(MemberEntity memberEntity, String code) {
 
         //1、校验验证码
-       // this.gmallMmsClient.sendSms(memberEntity.getMobile());
-
-        String mobile = memberEntity.getMobile();
-
-        String redisCode = this.stringRedisTemplate.opsForValue().get(AppConsts.CODE_PREFIX + mobile + AppConsts.CODE_CODE_SUFFIX);
-        if (StringUtils.isEmpty(redisCode)){
-            return;
+        String codeInRedis = this.stringRedisTemplate.opsForValue().get(AppConsts.CODE_PREFIX + memberEntity.getMobile() + AppConsts.CODE_CODE_SUFFIX);
+        if(StringUtils.isEmpty(codeInRedis) || !StringUtils.equals(codeInRedis,code)){
+            throw new IllegalArgumentException("验证码错误");
         }
-        if(!redisCode.equals(code)){
-            return;
-        }
+
 
         //2、生成盐
         String salt = StringUtils.substring(UUID.randomUUID().toString(), 0, 6);
@@ -114,5 +106,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         }
         return memberEntity;
     }
+
 
 }

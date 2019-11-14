@@ -1,5 +1,5 @@
 sms:
-  host: http//dingxin.market.alicloudapi.com
+  host: http://dingxin.market.alicloudapi.com
   path: /dx/sendSms
   method: POST
   appcode: 818ba9cb32ea4681adae6f2a972e5e45
@@ -11,3 +11,12 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  redis:
+    host: 192.168.154.129
+
+
+  rabbitmq:
+    host: 192.168.154.129
+    virtual-host: /qinhan
+    username: qinhan
+    password: qinhan

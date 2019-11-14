@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +27,8 @@ public class UserController {
     SmsTemplate smsTemplate;
 
     //1.给手机号码发送短信验证码
-    @PostMapping("sendSms")
-    public Resp<Object> sendSms(String phoneNum) {
+    @GetMapping("sendSms")
+    public Resp<Object> sendSms(@RequestParam("phoneNum") String phoneNum) {
         //验证手机号拿格式
         boolean b = ManagerUtils.isMobilePhone(phoneNum);
         if(!b) {
@@ -67,10 +65,10 @@ public class UserController {
         /*
             此处为发送短信验证码的地方
          */
-//		Boolean sendSms = smsTemplate.sendSms(querys);
-//		if(!sendSms) {
-//			return "短信验证码发送失败";
-//		}
+		Boolean sendSms = smsTemplate.sendSms(querys);
+		if(!sendSms) {
+			return Resp.fail("失败");
+		}
         //将验证码存到redis中5分钟
         stringRedisTemplate.opsForValue().set(AppConsts.CODE_PREFIX+phoneNum+AppConsts.CODE_CODE_SUFFIX, code, 5, TimeUnit.MINUTES);
         //获取次数过期时间

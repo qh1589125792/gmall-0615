@@ -30,11 +30,11 @@ public class SmsTemplate {
 //		querys.put("mobile", "13849808656");
 //		querys.put("param", "code:hahaha");
 //		querys.put("tpl_id", "TP1711063");
-        Map<String, String> bodys = new HashMap<String, String>();
+        Map<String, String> bodys = new HashMap<>();
 
         try {
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
-            //System.out.println(response.toString());
+//            System.out.println(response.toString());
             // 获取response的body
             // System.out.println(EntityUtils.toString(response.getEntity()));
             return true;
