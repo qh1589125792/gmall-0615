@@ -58,10 +58,10 @@ public class MessageListener {
         }
         //将验证码存到redis中5分钟
         String codeKey = AppConsts.CODE_PREFIX+phone+AppConsts.CODE_CODE_SUFFIX;
-        String countKey = AppConsts.CODE_PREFIX+phone+AppConsts.CODE_COUNT_SUFFIX;
         stringRedisTemplate.opsForValue().set(codeKey, code, 5, TimeUnit.MINUTES);
         //获取次数过期时间
 
+        String countKey = AppConsts.CODE_PREFIX+phone+AppConsts.CODE_COUNT_SUFFIX;
         Long expire = stringRedisTemplate.getExpire(countKey, TimeUnit.MINUTES);
         if(expire == null || expire <= 0) {
             expire = (long) (24*60);

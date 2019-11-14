@@ -1,7 +1,6 @@
 package com.atguigu.gmall.ums.service.impl;
 
 import com.atguigu.gmall.ums.consts.AppConsts;
-import com.atguigu.gmall.ums.feign.GmallMmsClient;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             throw new IllegalArgumentException("验证码错误");
         }
 
-
         //2、生成盐
         String salt = StringUtils.substring(UUID.randomUUID().toString(), 0, 6);
         memberEntity.setSalt(salt);
@@ -85,8 +83,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         memberEntity.setGrowth(0);
         this.save(memberEntity);
 
-        //5、删除Redis中的验证码
-//        this.stringRedisTemplate.delete(AppConsts.CODE_PREFIX + code + AppConsts.CODE_CODE_SUFFIX);
+       //5、删除Redis中的验证码
+        this.stringRedisTemplate.delete(AppConsts.CODE_PREFIX + memberEntity.getMobile() + AppConsts.CODE_CODE_SUFFIX);
 
     }
 
