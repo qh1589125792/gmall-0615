@@ -1,6 +1,7 @@
 package com.atguigu.gmall.pms.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.atguigu.core.bean.Resp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,8 @@ import com.atguigu.gmall.pms.service.SkuInfoService;
 public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
+
+
 
     @GetMapping("{spuId}")
     public Resp<List<SkuInfoEntity>> querySkuBySpuId(@PathVariable("spuId")Long spuId){
@@ -86,9 +90,10 @@ public class SkuInfoController {
     @PreAuthorize("hasAuthority('pms:skuinfo:update')")
     public Resp<Object> update(@RequestBody SkuInfoEntity skuInfo){
 		skuInfoService.updateById(skuInfo);
-
         return Resp.ok(null);
     }
+
+
 
     /**
      * 删除

@@ -8,6 +8,12 @@ spring:
   redis:
     host: 192.168.154.129
 
+  rabbitmq:
+    host: 192.168.154.129
+    virtual-host: /qinhan
+    username: qinhan
+    password: qinhan
+
 auth:
   jwt:
     publicKeyPath: D:\\develop\\Code\\workspace-idea\\tmp\\rsa.pub

@@ -18,6 +18,8 @@
         <module>gmall-ums-interface</module>
         <module>gmall-manager</module>
         <module>gmall-mms-interface</module>
+        <module>gmall-order-interface</module>
+        <module>gmall-cart-interface</module>
     </modules>
 
 </project>
