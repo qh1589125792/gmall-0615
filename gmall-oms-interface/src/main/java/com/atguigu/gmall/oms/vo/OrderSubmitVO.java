@@ -1,4 +1,4 @@
-package com.atguigu.gmall.order.vo;
+package com.atguigu.gmall.oms.vo;
 
 
 import com.atguigu.gmall.ums.entity.MemberReceiveAddressEntity;
@@ -9,6 +9,10 @@ import java.util.List;
 
 @Data
 public class OrderSubmitVO {
+
+    private Long userId;
+
+    private String userName;
 
     private MemberReceiveAddressEntity address;  // 收货地址
 

@@ -51,11 +51,11 @@ public class MessageListener {
         /*
             此处为发送短信验证码的地方
          */
-        Boolean sendSms = smsTemplate.sendSms(querys);
-        if(!sendSms) {
-            msg = "验证码发送失败，请重试";
-            Resp.fail(msg);
-        }
+//        Boolean sendSms = smsTemplate.sendSms(querys);
+//        if(!sendSms) {
+//            msg = "验证码发送失败，请重试";
+//            Resp.fail(msg);
+//        }
         //将验证码存到redis中5分钟
         String codeKey = AppConsts.CODE_PREFIX+phone+AppConsts.CODE_CODE_SUFFIX;
         stringRedisTemplate.opsForValue().set(codeKey, code, 5, TimeUnit.MINUTES);

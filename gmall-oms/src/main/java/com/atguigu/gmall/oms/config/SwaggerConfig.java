@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .groupName("订单平台")
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class)) // 所有标了API注解的才在文档中展示
-                .paths(PathSelectors.regex("/oms.*")) // pms下的所有请求
+                .paths(PathSelectors.regex("/oms.*")) // ums下的所有请求
                 .build()
                 .apiInfo(apiInfo())
                 .enable(true);
