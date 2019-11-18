@@ -140,7 +140,7 @@ public class OrderService {
         return orderConfirmVO;
     }
 
-    public void submit(OrderSubmitVO orderSubmitVO) {
+    public OrderEntity submit(OrderSubmitVO orderSubmitVO) {
 
         //1. 验证令牌防止重复提交
         String orderToken = orderSubmitVO.getOrderToken();
@@ -178,14 +178,16 @@ public class OrderService {
         }
         //4. 生成订单
         UserInfo userInfo = LoginInterceptor.get();
+        Resp<OrderEntity> orderResp = null;
         try {
             orderSubmitVO.setUserId(userInfo.getUserId());
             Resp<MemberEntity> memberEntityResp = this.gmallUmsClient.queryUserById(userInfo.getUserId());
             MemberEntity memberEntity = memberEntityResp.getData();
             orderSubmitVO.setUserName(memberEntity.getUsername());
-            Resp<OrderEntity> orderResp = this.gmallOmsClient.createOrder(orderSubmitVO);
+            orderResp = this.gmallOmsClient.createOrder(orderSubmitVO);
         } catch (Exception e) {
             e.printStackTrace();
+//            this.amqpTemplate.convertAndSend("WMS-EXCHANGE","wms.ttl",orderToken);
             throw new RuntimeException("订单创建失败!服务器异常！");
         }
         //5. 删购物车中对应的记录（消息队列）
@@ -194,5 +196,15 @@ public class OrderService {
         List<Long> skuIds = orderItemVOS.stream().map(orderItemVo -> orderItemVo.getSkuId()).collect(Collectors.toList());
         map.put("skuIds",skuIds);
         this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","cart.delete",map);
+
+        if (orderResp != null) {
+            return orderResp.getData();
+        }
+        return null;
+    }
+
+    public void paySuccess(String out_trade_no) {
+
+        this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE","order.pay",out_trade_no);
     }
 }

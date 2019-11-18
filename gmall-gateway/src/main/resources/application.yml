@@ -52,6 +52,12 @@ spring:
             - Path=/api/cart/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
+        - id: order-route
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
 
     nacos:
       discovery:

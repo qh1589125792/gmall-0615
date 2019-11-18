@@ -1,4 +1,4 @@
-package com.atguigu.gmall.wms.config;
+package com.atguigu.gmall.oms.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
@@ -16,31 +16,31 @@ public class RabbitMqConfig {
     @Bean
     public Exchange exchange(){
 
-        return new TopicExchange("WMS-EXCHANGE",true,false,null);
+        return new TopicExchange("OMS-EXCHANGE",true,false,null);
     }
 
     @Bean
     public Queue queue(){
 
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("x-dead-letter-exchange", "WMS-EXCHANGE");
-        arguments.put("x-dead-letter-routing-key", "wms.ttl");
-        arguments.put("x-message-ttl", 120000);
-        return new Queue("WMS-TTL-QUEUE",true,false,false,arguments);
+        arguments.put("x-dead-letter-exchange", "OMS-EXCHANGE");
+        arguments.put("x-dead-letter-routing-key", "oms.dead");
+        arguments.put("x-message-ttl", 110000);
+        return new Queue("OMS-TTL-QUEUE",true,false,false,arguments);
     }
 
     @Bean
     public Binding binding(){
-        return new Binding("WMS-TTL-QUEUE",Binding.DestinationType.QUEUE,"WMS-EXCHANGE","wms.unlock",null);
+        return new Binding("OMS-TTL-QUEUE",Binding.DestinationType.QUEUE,"OMS-EXCHANGE","oms.close",null);
     }
 
     @Bean
     public Queue deadQueue(){
-        return new Queue("WMS-DEAD-QUEUE",true,false,false,null);
+        return new Queue("OMS-DEAD-QUEUE",true,false,false,null);
     }
 
     @Bean
     public Binding deadBinding(){
-        return new Binding("WMS-DEAD-QUEUE", Binding.DestinationType.QUEUE,"WMS-EXCHANGE","wms.ttl",null);
+        return new Binding("OMS-DEAD-QUEUE", Binding.DestinationType.QUEUE,"OMS-EXCHANGE","oms.dead",null);
     }
 }
